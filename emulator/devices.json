@@ -29,7 +29,7 @@
     "config": {
       "start": 2147484672,
 	  "size":  2147483648,
-	  "binary": "hdd_mbr.bin",
+	  "binary": "test.bin",
 	  "readonly": true
     }
   }
