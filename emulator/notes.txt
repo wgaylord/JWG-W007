@@ -1,0 +1,30 @@
+disk.HDD devices 
+
+config
+start - Starting Address
+size - Size in bytes of the disk
+binary - Disk image
+readonly  - True / False disk read only
+
+0-3 LBA - 32-bit value  
+4 R/W register
+5 status
+6 command
+8 Datablock - 32-bit aligned
+
+
+
+serial.telnet
+
+uses a telnet server to act as the serial console for the system
+
+uses telnetserver library
+
+config 
+start - Starting Address
+port - Port for the telnet interface
+
+0 Data Register
+1 RX Buffer Filled Ammount
+2 TX Buffer Filled Ammount
+3 Interrupt Setting 

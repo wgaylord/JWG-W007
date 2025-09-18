@@ -1,0 +1,28 @@
+CALLING CONVENTION
+
+Callee Save 
+
+RA
+STATUS
+
+Caller Save
+
+Any that are in use not as Parm
+
+
+Parm
+
+A
+B
+C
+D
+E
+F
+G
+H
+
+Move then 8 parms use stack
+
+
+
+
