@@ -21,7 +21,7 @@
     "device": "console",
     "config": {
       "start": 2147483648,
-	  "intterupt":
+	  "intterupt": 1
     }
   },
    "hdd": {
