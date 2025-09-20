@@ -113,6 +113,7 @@ class console:
         self.input_queue = Queue(255)
         #tty.setraw(sys.stdin)
         self.intterupt = 0
+        self.int_wire = config["intterupt"]
 
 
         def update_server(in_queue):
@@ -183,3 +184,10 @@ class console:
             sys.stdout.flush()
         if addr == 3:
             self.intterupt = value
+            
+    def tick(self):
+        if self.intterupt & 1 == 1:
+            if not input_queue.empty():
+                return INTERRUPT_NUMS_STARTING
+        return 0
+        

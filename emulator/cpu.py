@@ -35,6 +35,7 @@ class CPU:
         self.writeHalf = partial(writeFunc,size=2)
         self.writeWord = partial(writeFunc,size=4)
         
+        
         self.PC = 0
         
         self.registers = {}
@@ -43,7 +44,11 @@ class CPU:
             self.registers[x] = 0
             
         self.registers[1] = 1
-        
+    
+    def interrupt(self,number):
+        self.registers[INT_RA] = self.PC
+        self.PC = self.readWord(-(((number&0xFF)*4)+PRIVLAGED_CSR_OFFSET))
+        return
         
     def tick(self):
         instruction = self.readWord(self.PC)
@@ -499,7 +504,7 @@ class CPU:
             case 30: #syscall
                 self.PC = self.PC + 8
                 self.registers[INT_RA] = self.PC
-                self.PC = self.readWord(-(self.registers[r1]+PRIVLAGED_CSR_OFFSET))
+                self.PC = self.readWord(-(((self.registers[r1]&0xFF)*4)+PRIVLAGED_CSR_OFFSET))
                 return
                 
             case 21: #sysrtn

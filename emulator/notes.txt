@@ -27,4 +27,22 @@ port - Port for the telnet interface
 0 Data Register
 1 RX Buffer Filled Ammount
 2 TX Buffer Filled Ammount
-3 Interrupt Setting 
+3 Interrupt Setting 1 == enabled, 0 == disabled
+
+
+
+
+
+Interrupts 
+255 addresses as 32-bit words after 0x80000000
+
+
+
+class STATUS_BITS:
+    OverFlow8 = 1
+    OverFlow16 = 2
+    OverFlow32 = 4
+    ZERO = 8
+    EQUAL = 16
+    GREATER = 32
+    MACHINE_MODE = 64

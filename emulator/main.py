@@ -10,5 +10,8 @@ cpu = cpu.CPU(readFunc = board.read, writeFunc = board.write)
 while True:
     #print(cpu.PC,cpu.registers)
     cpu.tick()
+    interrupt = board.tick()
+    if interrupt > 0:
+        cpu.interrupt(interrupt)
     time.sleep(0.1)
     

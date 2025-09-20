@@ -20,7 +20,8 @@
     "deviceType": "serial",
     "device": "console",
     "config": {
-      "start": 2147483648
+      "start": 2147483648,
+	  "intterupt":
     }
   },
    "hdd": {
@@ -28,7 +29,7 @@
     "device": "HDD_RAW_IMG",
     "config": {
       "start": 2147484672,
-	  "size":  2147483648,
+	  "size":  91,
 	  "binary": "test.bin",
 	  "readonly": true
     }
