@@ -1,0 +1,9 @@
+#once
+#const SERIAL_DATA = 2147483648
+#const RAM_START = 4096
+#const STRING_BUFFER_POINTER = 4096
+#const STRING_BUFFER = 4097 ;4224
+#const CPU_STACK = 4240
+
+;Z is CPU stack index
+

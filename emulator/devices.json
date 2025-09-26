@@ -5,7 +5,7 @@
     "config": {
       "start": 0,
       "length": 4096,
-      "binary": "test.bin"
+      "binary": "main.bin"
     }
   },
    "ram": {
@@ -22,16 +22,6 @@
     "config": {
       "start": 2147483648,
 	  "intterupt": 1
-    }
-  },
-   "hdd": {
-    "deviceType": "disk",
-    "device": "HDD_RAW_IMG",
-    "config": {
-      "start": 2147484672,
-	  "size":  91,
-	  "binary": "test.bin",
-	  "readonly": true
     }
   }
 }

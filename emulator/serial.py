@@ -120,7 +120,7 @@ class console:
             while True:
                 t = sys.stdin.read(1)
                 if len(t) > 0:
-                    in_queue.put(ord(sys.stdin.read(1)))
+                    in_queue.put(ord(t))
         
         input_thread = threading.Thread(target=update_server, args=([self.input_queue]))
         input_thread.daemon = True
@@ -129,9 +129,10 @@ class console:
 
         
     def read(self,addr,size):
+        
         if not self.isSelected(addr):
             return 0
-            
+        #print(addr,size)    
         if size == 1:
             return self.get(addr-self.start)
         elif size == 2 and self.isSelected(addr+1):

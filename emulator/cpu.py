@@ -62,7 +62,7 @@ class CPU:
         
         if opcode in self.__MultiWordInstructions:
             immd = self.readWord(self.PC+4)
-
+        #print(opcode)
         match opcode:
             case 0:
                 self.PC = self.PC + 4
@@ -428,24 +428,23 @@ class CPU:
             case 21: #cmpu
                 r1s =  self.registers[r1] 
                 r2s = self.registers[r2]
-                
+                #print("cmpu",r1s,r2s,r1s == r2s,r1s > r2s)
                 if r1s == r2s:
                     self.registers[STATUS] = self.registers[STATUS] | STATUS_BITS.EQUAL
                 else:
                     self.registers[STATUS] = (STATUS_BITS.EQUAL ^ 0xFFFFFFFF) & self.registers[STATUS]
                     
                 if r1s > r2s:
-                    self.registers[STATUS] = self.registers[STATUS] | STATUS_BITS.EQUAL
+                    self.registers[STATUS] = self.registers[STATUS] | STATUS_BITS.GREATER
                 else:
-                    self.registers[STATUS] = (STATUS_BITS.EQUAL ^ 0xFFFFFFFF) & self.registers[STATUS]
-               
-                
+                    self.registers[STATUS] = (STATUS_BITS.GREATER ^ 0xFFFFFFFF) & self.registers[STATUS]
+              
                 self.PC = self.PC + 4
                 return
                 
             case 22: #bchi
                 
-                
+                #print("Branch Instruction",cond,self.registers[STATUS] & cond == cond)
                 if self.registers[STATUS] & cond == cond or cond == 0:
                     self.PC = immd
                     return
@@ -462,10 +461,13 @@ class CPU:
                 return
                 
             case 24: #call
+                self.registers[RETURN_ADDR] = self.PC + 8
                 self.PC = immd
+                #print(self.PC)
                 return
                             
             case 25: #callr
+                self.registers[RETURN_ADDR] = self.PC + 4
                 self.PC = self.registers[r1] 
                 return
                 
