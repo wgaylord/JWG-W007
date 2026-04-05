@@ -1,0 +1,559 @@
+   outp | addr | data (base 16)
+
+    0:0 |    0 | 00 00 00 a8 a0 06 00 00 ; jmp main
+    8:0 |    8 |             ; PrintString:
+    8:0 |    8 | 00 20 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push A
+   1c:0 |   1c | 00 30 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push B
+   30:0 |   30 |             ; _PrintSTART:
+   30:0 |   30 | 00 00 c4 18 00 00 00 00 ; lb B, A, 0
+   38:0 |   38 | 00 00 06 a0 ; cmpu B, ZERO
+   3c:0 |   3c | 00 01 00 a8 58 00 00 00 ; bchi EQUAL, _PrintFinish
+   44:0 |   44 | 00 30 00 30 00 00 00 c0 ; sb B, ZERO, SERIAL_DATA
+   4c:0 |   4c | 00 20 82 40 ; add A, ONE, A
+   50:0 |   50 | 00 00 00 a8 30 00 00 00 ; jmp _PrintSTART
+   58:0 |   58 |             ; _PrintFinish:
+   58:0 |   58 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 f6 08 00 40 00 00 ; pop B
+   6c:0 |   6c | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 b6 08 00 40 00 00 ; pop A
+   80:0 |   80 | 00 00 00 c8 ; rtn
+   84:0 |   84 |             ; PrintFileNameString:
+   84:0 |   84 | 00 30 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push B
+   98:0 |   98 | 00 00 c4 18 00 00 00 00 ; lb B, A, 0
+   a0:0 |   a0 | 00 30 00 30 00 00 00 c0 ; sb B, ZERO, SERIAL_DATA
+   a8:0 |   a8 | 00 00 c4 18 01 00 00 00 ; lb B, A, 1
+   b0:0 |   b0 | 00 30 00 30 00 00 00 c0 ; sb B, ZERO, SERIAL_DATA
+   b8:0 |   b8 | 00 00 c4 18 02 00 00 00 ; lb B, A, 2
+   c0:0 |   c0 | 00 30 00 30 00 00 00 c0 ; sb B, ZERO, SERIAL_DATA
+   c8:0 |   c8 | 00 00 c4 18 03 00 00 00 ; lb B, A, 3
+   d0:0 |   d0 | 00 30 00 30 00 00 00 c0 ; sb B, ZERO, SERIAL_DATA
+   d8:0 |   d8 | 00 00 c4 18 04 00 00 00 ; lb B, A, 4
+   e0:0 |   e0 | 00 30 00 30 00 00 00 c0 ; sb B, ZERO, SERIAL_DATA
+   e8:0 |   e8 | 00 00 c4 18 05 00 00 00 ; lb B, A, 5
+   f0:0 |   f0 | 00 30 00 30 00 00 00 c0 ; sb B, ZERO, SERIAL_DATA
+   f8:0 |   f8 | 00 00 c4 18 06 00 00 00 ; lb B, A, 6
+  100:0 |  100 | 00 30 00 30 00 00 00 c0 ; sb B, ZERO, SERIAL_DATA
+  108:0 |  108 | 00 00 c4 18 07 00 00 00 ; lb B, A, 7
+  110:0 |  110 | 00 30 00 30 00 00 00 c0 ; sb B, ZERO, SERIAL_DATA
+  118:0 |  118 | 00 00 c4 18 08 00 00 00 ; lb B, A, 8
+  120:0 |  120 | 00 30 00 30 00 00 00 c0 ; sb B, ZERO, SERIAL_DATA
+  128:0 |  128 | 00 00 c4 18 09 00 00 00 ; lb B, A, 9
+  130:0 |  130 | 00 30 00 30 00 00 00 c0 ; sb B, ZERO, SERIAL_DATA
+  138:0 |  138 | 00 00 c4 18 0a 00 00 00 ; lb B, A, 10
+  140:0 |  140 | 00 30 00 30 00 00 00 c0 ; sb B, ZERO, SERIAL_DATA
+  148:0 |  148 | 00 00 c0 38 0a 00 00 00 ; limd B, 10
+  150:0 |  150 | 00 30 00 30 00 00 00 c0 ; sb B, ZERO, SERIAL_DATA
+  158:0 |  158 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 f6 08 00 40 00 00 ; pop B
+  16c:0 |  16c | 00 00 00 c8 ; rtn
+  170:0 |  170 |             ; CMPFileNameStrings:
+  170:0 |  170 | 00 30 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push B
+  184:0 |  184 | 00 40 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push C
+  198:0 |  198 | 00 50 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push D
+  1ac:0 |  1ac | 00 60 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push E
+  1c0:0 |  1c0 | 00 70 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push F
+  1d4:0 |  1d4 | 00 00 c0 39 0a 00 00 00 ; limd F, 10
+  1dc:0 |  1dc | 00 00 80 39 00 00 00 00 ; limd E, 0
+  1e4:0 |  1e4 |             ; _CMPFileNameStrings_loop:
+  1e4:0 |  1e4 | 00 70 0c a0 ; cmpu E, F
+  1e8:0 |  1e8 | 00 01 00 a8 28 02 00 00 ; bchi EQUAL, _CMPFileNameStrings_exit_good
+  1f0:0 |  1f0 | 00 20 82 40 ; add A, ONE, A
+  1f4:0 |  1f4 | 00 30 c2 40 ; add B, ONE, B
+  1f8:0 |  1f8 | 00 00 04 19 00 00 00 00 ; lb C, A, 0
+  200:0 |  200 | 00 00 46 19 00 00 00 00 ; lb D, B, 0
+  208:0 |  208 | 00 50 08 a0 ; cmpu C, D
+  20c:0 |  20c | 00 60 82 41 ; add E, ONE, E
+  210:0 |  210 | 00 01 00 a8 e4 01 00 00 ; bchi EQUAL, _CMPFileNameStrings_loop
+  218:0 |  218 | 00 00 80 38 01 00 00 00 ; limd A, 1
+  220:0 |  220 | 00 00 00 a8 30 02 00 00 ; jmp _CMPFileNameStrings_exit
+  228:0 |  228 |             ; _CMPFileNameStrings_exit_good:
+  228:0 |  228 | 00 00 80 38 00 00 00 00 ; limd A, 0
+  230:0 |  230 |             ; _CMPFileNameStrings_exit:
+  230:0 |  230 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 f6 09 00 40 00 00 ; pop F
+  244:0 |  244 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 b6 09 00 40 00 00 ; pop E
+  258:0 |  258 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 76 09 00 40 00 00 ; pop D
+  26c:0 |  26c | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 36 09 00 40 00 00 ; pop C
+  280:0 |  280 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 f6 08 00 40 00 00 ; pop B
+  294:0 |  294 | 00 00 00 c8 ; rtn
+  298:0 |  298 |             ; PrintInt:
+  298:0 |  298 | 00 20 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push A
+  2ac:0 |  2ac | 00 30 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push B
+  2c0:0 |  2c0 | 00 40 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push C
+  2d4:0 |  2d4 | 00 50 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push D
+  2e8:0 |  2e8 | 00 60 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push E
+  2fc:0 |  2fc | 00 70 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push F
+  310:0 |  310 | 00 d0 37 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push RA
+  324:0 |  324 | 00 00 c0 38 0a 00 00 00 ; limd B, 10
+  32c:0 |  32c | 00 00 00 39 0b 00 00 00 ; limd C, 11
+  334:0 |  334 | 00 00 c0 39 30 00 00 00 ; limd F, 48
+  33c:0 |  33c | 00 00 00 30 0c 20 00 00 ; sb ZERO, ZERO, PrintIntBufferEnd
+  344:0 |  344 |             ; _PrintIntLoop:
+  344:0 |  344 | 00 00 04 a0 ; cmpu A, ZERO
+  348:0 |  348 | 00 01 00 a8 78 03 00 00 ; bchi EQUAL, _PrintIntDone
+  350:0 |  350 | 00 30 44 59 ; div D, A, B
+  354:0 |  354 | 00 50 46 51 ; mul D, B, D
+  358:0 |  358 | 00 50 44 49 ; sub D, A, D
+  35c:0 |  35c | 00 50 4e 41 ; add D, F, D
+  360:0 |  360 | 00 50 08 30 00 20 00 00 ; sb D, C, PrintIntBuffer
+  368:0 |  368 | 00 10 08 49 ; sub C, C, ONE
+  36c:0 |  36c | 00 30 84 58 ; div A, A, B
+  370:0 |  370 | 00 00 00 a8 44 03 00 00 ; jmp _PrintIntLoop
+  378:0 |  378 |             ; _PrintIntDone:
+  378:0 |  378 | 00 00 80 38 00 20 00 00 ; limd A, PrintIntBuffer
+  380:0 |  380 | 00 20 88 40 ; add A, C, A
+  384:0 |  384 | 00 10 84 40 ; add A, A, ONE
+  388:0 |  388 | 00 00 00 b8 08 00 00 00 ; call PrintString
+  390:0 |  390 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 76 0f 00 40 00 00 ; pop RA
+  3a4:0 |  3a4 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 f6 09 00 40 00 00 ; pop F
+  3b8:0 |  3b8 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 b6 09 00 40 00 00 ; pop E
+  3cc:0 |  3cc | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 76 09 00 40 00 00 ; pop D
+  3e0:0 |  3e0 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 36 09 00 40 00 00 ; pop C
+  3f4:0 |  3f4 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 f6 08 00 40 00 00 ; pop B
+  408:0 |  408 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 b6 08 00 40 00 00 ; pop A
+  41c:0 |  41c | 00 00 00 c8 ; rtn
+  420:0 |  420 |             ; StringCMP:
+  420:0 |  420 | 00 00 04 19 00 00 00 00 ; lb C, A, 0
+  428:0 |  428 | 00 00 46 19 00 00 00 00 ; lb D, B, 0
+  430:0 |  430 | 00 50 08 a0 ; cmpu C, D
+  434:0 |  434 | 00 01 00 a8 44 04 00 00 ; bchi EQUAL, _CMP_Equal
+  43c:0 |  43c | 00 00 00 a8 64 04 00 00 ; jmp _NotEqual
+  444:0 |  444 |             ; _CMP_Equal:
+  444:0 |  444 | 00 00 08 a0 ; cmpu C, ZERO
+  448:0 |  448 | 00 01 00 a8 60 04 00 00 ; bchi EQUAL, _CMPEqualFinish
+  450:0 |  450 | 00 20 82 40 ; add A, ONE, A
+  454:0 |  454 | 00 30 c2 40 ; add B, ONE, B
+  458:0 |  458 | 00 00 00 a8 20 04 00 00 ; jmp StringCMP
+  460:0 |  460 |             ; _CMPEqualFinish:
+  460:0 |  460 | 00 00 80 78 ; and A, ZERO, ZERO
+  464:0 |  464 |             ; _NotEqual:
+  464:0 |  464 | 00 10 82 78 ; and A, ONE, ONE
+  468:0 |  468 | 00 00 00 c8 ; rtn
+  46c:0 |  46c |             ; dumpSector512:
+  46c:0 |  46c | 00 d0 37 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push RA
+  480:0 |  480 | 00 30 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push B
+  494:0 |  494 | 00 40 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push C
+  4a8:0 |  4a8 | 00 00 00 39 00 02 00 00 ; limd C, 512
+  4b0:0 |  4b0 |             ; dumpSector512_loop:
+  4b0:0 |  4b0 | 00 20 c4 80 ; or B, A, A
+  4b4:0 |  4b4 | 00 00 86 18 00 00 00 00 ; lb A, B, 0
+  4bc:0 |  4bc | 00 00 00 b8 98 02 00 00 ; call PrintInt
+  4c4:0 |  4c4 | 00 00 80 38 2c 00 00 00 ; limd A, 44
+  4cc:0 |  4cc | 00 20 00 30 00 00 00 c0 ; sb A, ZERO, SERIAL_DATA
+  4d4:0 |  4d4 | 00 10 c6 40 ; add B, B, ONE
+  4d8:0 |  4d8 | 00 10 08 49 ; sub C, C, ONE
+  4dc:0 |  4dc | 00 00 08 a0 ; cmpu C, ZERO
+  4e0:0 |  4e0 | 00 01 00 a8 f0 04 00 00 ; bchi EQUAL, dumpSector512_exit
+  4e8:0 |  4e8 | 00 00 00 a8 6c 04 00 00 ; jmp dumpSector512
+  4f0:0 |  4f0 |             ; dumpSector512_exit:
+  4f0:0 |  4f0 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 36 09 00 40 00 00 ; pop C
+  504:0 |  504 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 f6 08 00 40 00 00 ; pop B
+  518:0 |  518 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 76 0f 00 40 00 00 ; pop RA
+  52c:0 |  52c | 00 00 00 c8 ; rtn
+  530:0 |  530 |             ; BlockCopy512:
+  530:0 |  530 | 00 20 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push A
+  544:0 |  544 | 00 30 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push B
+  558:0 |  558 | 00 40 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push C
+  56c:0 |  56c | 00 50 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push D
+  580:0 |  580 | 00 60 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push E
+  594:0 |  594 | 00 70 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push F
+  5a8:0 |  5a8 | 00 80 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push G
+  5bc:0 |  5bc | 00 00 00 79 ; and C, ZERO, ZERO
+  5c0:0 |  5c0 | 00 00 40 39 04 00 00 00 ; limd D, 4
+  5c8:0 |  5c8 | 00 00 80 39 80 00 00 00 ; limd E, 128
+  5d0:0 |  5d0 | 00 00 00 3a 2e 00 00 00 ; limd G, 46
+  5d8:0 |  5d8 |             ; _BlockCopy512loop:
+  5d8:0 |  5d8 | 00 80 00 30 00 00 00 c0 ; sb G, ZERO, SERIAL_DATA
+  5e0:0 |  5e0 | 00 00 c4 09 00 00 00 00 ; lw F, A, 0
+  5e8:0 |  5e8 | 00 70 06 20 00 00 00 00 ; sw F, B, 0
+  5f0:0 |  5f0 | 00 10 08 41 ; add C, C, ONE
+  5f4:0 |  5f4 | 00 60 08 a0 ; cmpu C, E
+  5f8:0 |  5f8 | 00 01 00 a8 10 06 00 00 ; bchi EQUAL, _BlockCopy512done
+  600:0 |  600 | 00 20 8a 40 ; add A, D, A
+  604:0 |  604 | 00 30 ca 40 ; add B, D, B
+  608:0 |  608 | 00 00 00 a8 d8 05 00 00 ; jmp _BlockCopy512loop
+  610:0 |  610 |             ; _BlockCopy512done:
+  610:0 |  610 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 36 0a 00 40 00 00 ; pop G
+  624:0 |  624 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 f6 09 00 40 00 00 ; pop F
+  638:0 |  638 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 b6 09 00 40 00 00 ; pop E
+  64c:0 |  64c | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 76 09 00 40 00 00 ; pop D
+  660:0 |  660 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 36 09 00 40 00 00 ; pop C
+  674:0 |  674 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 f6 08 00 40 00 00 ; pop B
+  688:0 |  688 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 b6 08 00 40 00 00 ; pop A
+  69c:0 |  69c | 00 00 00 c8 ; rtn
+  6a0:0 |  6a0 |             ; main:
+  6a0:0 |  6a0 | 00 00 80 38 44 11 00 00 ; limd A, CheckingMBRIntegerty
+  6a8:0 |  6a8 | 00 00 00 b8 08 00 00 00 ; call PrintString
+  6b0:0 |  6b0 | 00 00 00 20 00 04 00 c0 ; sw ZERO, ZERO, HDD_LBA
+  6b8:0 |  6b8 | 00 00 00 18 04 04 00 c0 ; lb ZERO, ZERO, HDD_WR
+  6c0:0 |  6c0 | 00 00 80 10 06 06 00 c0 ; lh A, ZERO, HDD_BLOCK_START + 510
+  6c8:0 |  6c8 | 00 00 c0 38 55 aa 00 00 ; limd B, 0xAA55
+  6d0:0 |  6d0 | 00 30 04 a0 ; cmpu A, B
+  6d4:0 |  6d4 | 00 01 00 a8 04 07 00 00 ; bchi EQUAL, _MBR_OK
+  6dc:0 |  6dc | 00 00 80 38 5f 11 00 00 ; limd A, FAILEDResponse
+  6e4:0 |  6e4 | 00 00 00 b8 08 00 00 00 ; call PrintString
+  6ec:0 |  6ec | 00 00 80 38 68 11 00 00 ; limd A, CheckFailedHalting
+  6f4:0 |  6f4 | 00 00 00 b8 08 00 00 00 ; call PrintString
+  6fc:0 |  6fc | 00 00 00 a8 fc 06 00 00 ; halt
+  704:0 |  704 |             ; _MBR_OK:
+  704:0 |  704 | 00 00 80 38 81 11 00 00 ; limd A, PASSEDResponse
+  70c:0 |  70c | 00 00 00 b8 08 00 00 00 ; call PrintString
+  714:0 |  714 | 00 00 80 38 ef 11 00 00 ; limd A, SearchBootPartition
+  71c:0 |  71c | 00 00 00 b8 08 00 00 00 ; call PrintString
+  724:0 |  724 | 00 00 80 38 c6 05 00 c0 ; limd A, HDD_BLOCK_START + 446
+  72c:0 |  72c | 00 20 84 7e ; and Y, A, A
+  730:0 |  730 | 00 00 00 b8 b8 0f 00 00 ; call checkParititon
+  738:0 |  738 | 00 00 04 a0 ; cmpu A, ZERO
+  73c:0 |  73c | 00 01 00 a8 bc 07 00 00 ; bchi EQUAL, _partFound
+  744:0 |  744 | 00 00 80 38 d6 05 00 c0 ; limd A, HDD_BLOCK_START + 446+16
+  74c:0 |  74c | 00 20 84 7e ; and Y, A, A
+  750:0 |  750 | 00 00 00 b8 b8 0f 00 00 ; call checkParititon
+  758:0 |  758 | 00 00 04 a0 ; cmpu A, ZERO
+  75c:0 |  75c | 00 01 00 a8 bc 07 00 00 ; bchi EQUAL, _partFound
+  764:0 |  764 | 00 00 80 38 e6 05 00 c0 ; limd A, HDD_BLOCK_START + 446+32
+  76c:0 |  76c | 00 20 84 7e ; and Y, A, A
+  770:0 |  770 | 00 00 00 b8 b8 0f 00 00 ; call checkParititon
+  778:0 |  778 | 00 00 04 a0 ; cmpu A, ZERO
+  77c:0 |  77c | 00 01 00 a8 bc 07 00 00 ; bchi EQUAL, _partFound
+  784:0 |  784 | 00 00 80 38 f6 05 00 c0 ; limd A, HDD_BLOCK_START + 446 + 48
+  78c:0 |  78c | 00 20 84 7e ; and Y, A, A
+  790:0 |  790 | 00 00 00 b8 b8 0f 00 00 ; call checkParititon
+  798:0 |  798 | 00 00 04 a0 ; cmpu A, ZERO
+  79c:0 |  79c | 00 01 00 a8 bc 07 00 00 ; bchi EQUAL, _partFound
+  7a4:0 |  7a4 | 00 00 80 38 12 12 00 00 ; limd A, NoBootPartitionFound
+  7ac:0 |  7ac | 00 00 00 b8 08 00 00 00 ; call PrintString
+  7b4:0 |  7b4 | 00 00 00 a8 b4 07 00 00 ; halt
+  7bc:0 |  7bc |             ; _partFound:
+  7bc:0 |  7bc | 00 00 80 38 cd 11 00 00 ; limd A, FoundParitionAt
+  7c4:0 |  7c4 | 00 00 00 b8 08 00 00 00 ; call PrintString
+  7cc:0 |  7cc | 00 00 b4 08 08 00 00 00 ; lw A, Y, 8
+  7d4:0 |  7d4 | 00 00 00 b8 98 02 00 00 ; call PrintInt
+  7dc:0 |  7dc | 00 20 84 7e ; and Y, A, A
+  7e0:0 |  7e0 | 00 20 00 20 00 04 00 c0 ; sw A, ZERO, HDD_LBA
+  7e8:0 |  7e8 | 00 00 80 38 0a 00 00 00 ; limd A, 10
+  7f0:0 |  7f0 | 00 20 00 30 00 00 00 c0 ; sb A, ZERO, SERIAL_DATA
+  7f8:0 |  7f8 | 00 00 00 18 04 04 00 c0 ; lb ZERO, ZERO, HDD_WR
+  800:0 |  800 | 00 a0 01 20 00 24 00 00 ; sw Y, ZERO, Partition_LBA_Begin
+  808:0 |  808 | 00 00 80 38 18 13 00 00 ; limd A, BytesPerSector
+  810:0 |  810 | 00 00 00 b8 08 00 00 00 ; call PrintString
+  818:0 |  818 | 00 00 c0 10 13 04 00 c0 ; lh B, ZERO, HDD_BLOCK_START + 0x0B
+  820:0 |  820 | 00 00 86 80 ; or A, B, ZERO
+  824:0 |  824 | 00 00 00 b8 98 02 00 00 ; call PrintInt
+  82c:0 |  82c | 00 30 00 28 04 24 00 00 ; sh B, ZERO, BPB_BytsPerSec
+  834:0 |  834 | 00 00 80 38 2a 13 00 00 ; limd A, SectorsPerCluster
+  83c:0 |  83c | 00 00 00 b8 08 00 00 00 ; call PrintString
+  844:0 |  844 | 00 00 c0 18 15 04 00 c0 ; lb B, ZERO, HDD_BLOCK_START + 0x0D
+  84c:0 |  84c | 00 00 86 80 ; or A, B, ZERO
+  850:0 |  850 | 00 00 00 b8 98 02 00 00 ; call PrintInt
+  858:0 |  858 | 00 30 00 28 06 24 00 00 ; sh B, ZERO, sectors_per_cluster
+  860:0 |  860 | 00 00 00 11 16 04 00 c0 ; lh C, ZERO, HDD_BLOCK_START + 0x0E
+  868:0 |  868 | 00 40 00 28 08 24 00 00 ; sh C, ZERO, BPB_RsvdSecCnt
+  870:0 |  870 | 00 00 40 19 18 04 00 c0 ; lb D, ZERO, HDD_BLOCK_START + 0x10
+  878:0 |  878 | 00 50 00 30 0a 24 00 00 ; sb D, ZERO, BPB_NumFATs
+  880:0 |  880 | 00 00 80 09 2c 04 00 c0 ; lw E, ZERO, HDD_BLOCK_START + 0x24
+  888:0 |  888 | 00 60 00 20 0c 24 00 00 ; sw E, ZERO, Sectors_Per_FAT
+  890:0 |  890 | 00 00 80 38 5f 13 00 00 ; limd A, SectorsPerFAT
+  898:0 |  898 | 00 00 00 b8 08 00 00 00 ; call PrintString
+  8a0:0 |  8a0 | 00 00 8c 80 ; or A, E, ZERO
+  8a4:0 |  8a4 | 00 00 00 b8 98 02 00 00 ; call PrintInt
+  8ac:0 |  8ac | 00 00 c0 08 34 04 00 c0 ; lw B, ZERO, HDD_BLOCK_START + 0x2C
+  8b4:0 |  8b4 | 00 30 00 20 10 24 00 00 ; sw B, ZERO, root_dir_first_cluster
+  8bc:0 |  8bc | 00 00 80 38 0a 00 00 00 ; limd A, 10
+  8c4:0 |  8c4 | 00 20 00 30 00 00 00 c0 ; sb A, ZERO, SERIAL_DATA
+  8cc:0 |  8cc | 00 b0 c9 41 ; add F, C, Z
+  8d0:0 |  8d0 | 00 70 00 20 14 24 00 00 ; sw F, ZERO, fat_begin_lba
+  8d8:0 |  8d8 | 00 60 ca 55 ; mul V, D, E
+  8dc:0 |  8dc | 00 70 ee 45 ; add V, V, F
+  8e0:0 |  8e0 | 00 70 01 20 18 24 00 00 ; sw V, ZERO, cluster_begin_lba
+  8e8:0 |  8e8 | 00 00 80 38 71 13 00 00 ; limd A, FATBeginLBA
+  8f0:0 |  8f0 | 00 00 00 b8 08 00 00 00 ; call PrintString
+  8f8:0 |  8f8 | 00 00 8e 80 ; or A, F, ZERO
+  8fc:0 |  8fc | 00 00 00 b8 98 02 00 00 ; call PrintInt
+  904:0 |  904 | 00 00 80 38 81 13 00 00 ; limd A, ClusterBeginLBA
+  90c:0 |  90c | 00 00 00 b8 08 00 00 00 ; call PrintString
+  914:0 |  914 | 00 00 ae 80 ; or A, V, ZERO
+  918:0 |  918 | 00 00 00 b8 98 02 00 00 ; call PrintInt
+  920:0 |  920 | 00 00 00 b8 38 09 00 00 ; call findKernelFile
+  928:0 |  928 | 00 00 00 b8 c4 0a 00 00 ; call loadKernelAndRun
+  930:0 |  930 | 00 00 00 a8 30 09 00 00 ; halt
+  938:0 |  938 |             ; findKernelFile:
+  938:0 |  938 | 00 d0 37 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push RA
+  94c:0 |  94c | 00 30 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push B
+  960:0 |  960 | 00 40 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push C
+  974:0 |  974 | 00 00 80 38 38 12 00 00 ; limd A, ReadingRootDirectory
+  97c:0 |  97c | 00 00 00 b8 08 00 00 00 ; call PrintString
+  984:0 |  984 | 00 00 80 08 10 24 00 00 ; lw A, ZERO, root_dir_first_cluster
+  98c:0 |  98c | 00 00 c0 08 00 24 00 00 ; lw B, ZERO, Partition_LBA_Begin
+  994:0 |  994 | 00 20 86 40 ; add A, B, A
+  998:0 |  998 | 00 00 00 b8 d0 0b 00 00 ; call loadCluster
+  9a0:0 |  9a0 | 00 00 80 38 ac 11 00 00 ; limd A, LoadedCluster
+  9a8:0 |  9a8 | 00 00 00 b8 08 00 00 00 ; call PrintString
+  9b0:0 |  9b0 | 00 00 80 38 54 12 00 00 ; limd A, SearchingForKernel
+  9b8:0 |  9b8 | 00 00 00 b8 08 00 00 00 ; call PrintString
+  9c0:0 |  9c0 | 00 00 80 38 00 28 00 00 ; limd A, FAT_CLUSTER
+  9c8:0 |  9c8 |             ; _findKernelFile_checkEntryType:
+  9c8:0 |  9c8 | 00 20 04 81 ; OR C, A, A
+  9cc:0 |  9cc | 00 00 00 b8 64 0e 00 00 ; call checkFAT32DirectoryTableEntry
+  9d4:0 |  9d4 | 00 00 c0 38 03 00 00 00 ; limd B, 3
+  9dc:0 |  9dc | 00 20 06 a0 ; cmpu B, A
+  9e0:0 |  9e0 | 00 01 00 a8 58 0a 00 00 ; bchi EQUAL, _findKernelFile_EndOfDIR
+  9e8:0 |  9e8 | 00 20 02 a0 ; cmpu ONE, A
+  9ec:0 |  9ec | 00 01 00 a8 08 0a 00 00 ; bchi EQUAL, _findKernelFile_foundFile
+  9f4:0 |  9f4 | 00 00 c0 38 20 00 00 00 ; limd B, 32
+  9fc:0 |  9fc | 00 40 86 40 ; add A, B, C
+  a00:0 |  a00 | 00 00 00 a8 c8 09 00 00 ; jmp _findKernelFile_checkEntryType
+  a08:0 |  a08 |             ; _findKernelFile_foundFile:
+  a08:0 |  a08 | 00 00 80 38 b3 12 00 00 ; limd A, FoundFile
+  a10:0 |  a10 | 00 00 00 b8 08 00 00 00 ; call PrintString
+  a18:0 |  a18 | 00 40 88 80 ; or A, C, C
+  a1c:0 |  a1c | 00 00 00 b8 84 00 00 00 ; call PrintFileNameString
+  a24:0 |  a24 | 00 00 c0 38 a8 12 00 00 ; limd B, FileName
+  a2c:0 |  a2c | 00 40 88 80 ; or A, C, C
+  a30:0 |  a30 | 00 00 00 b8 70 01 00 00 ; call CMPFileNameStrings
+  a38:0 |  a38 | 00 00 04 a0 ; cmpu A, ZERO
+  a3c:0 |  a3c | 00 01 00 a8 70 0a 00 00 ; bchi EQUAL, _findKernelFile_FoundKernel
+  a44:0 |  a44 | 00 00 c0 38 20 00 00 00 ; limd B, 32
+  a4c:0 |  a4c | 00 40 86 40 ; add A, B, C
+  a50:0 |  a50 | 00 00 00 a8 c8 09 00 00 ; jmp _findKernelFile_checkEntryType
+  a58:0 |  a58 |             ; _findKernelFile_EndOfDIR:
+  a58:0 |  a58 | 00 00 80 38 8a 12 00 00 ; limd A, NoKernelFound
+  a60:0 |  a60 | 00 00 00 b8 08 00 00 00 ; call PrintString
+  a68:0 |  a68 | 00 00 00 a8 68 0a 00 00 ; halt
+  a70:0 |  a70 |             ; _findKernelFile_FoundKernel:
+  a70:0 |  a70 | 00 00 80 38 6f 12 00 00 ; limd A, KernelFoundMsg
+  a78:0 |  a78 | 00 00 00 b8 08 00 00 00 ; call PrintString
+  a80:0 |  a80 | 00 40 88 80 ; or A, C, C
+  a84:0 |  a84 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 36 09 00 40 00 00 ; pop C
+  a98:0 |  a98 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 f6 08 00 40 00 00 ; pop B
+  aac:0 |  aac | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 76 0f 00 40 00 00 ; pop RA
+  ac0:0 |  ac0 | 00 00 00 c8 ; rtn
+  ac4:0 |  ac4 |             ; loadKernelAndRun:
+  ac4:0 |  ac4 | 00 d0 37 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push RA
+  ad8:0 |  ad8 | 00 30 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push B
+  aec:0 |  aec | 00 40 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push C
+  b00:0 |  b00 | 00 50 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push D
+  b14:0 |  b14 | 00 60 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push E
+  b28:0 |  b28 | 00 70 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push F
+  b3c:0 |  b3c | 00 00 c4 10 14 00 00 00 ; lh B, A, 0x14
+  b44:0 |  b44 | 00 00 04 11 1a 00 00 00 ; lh C, A, 0x1A
+  b4c:0 |  b4c | 00 00 40 39 00 00 01 00 ; limd D, 65536
+  b54:0 |  b54 | 00 50 c6 50 ; mul B, B, D
+  b58:0 |  b58 | 00 30 c8 40 ; add B, C, B
+  b5c:0 |  b5c | 00 00 44 09 1c 00 00 00 ; lw D, A, 0x1C
+  b64:0 |  b64 | 00 30 86 80 ; or A, B, B
+  b68:0 |  b68 | 00 00 00 b8 98 02 00 00 ; call PrintInt
+  b70:0 |  b70 | 00 00 80 39 0a 00 00 00 ; limd E, 10
+  b78:0 |  b78 | 00 60 00 30 00 00 00 c0 ; sb E, ZERO, SERIAL_DATA
+  b80:0 |  b80 | 00 50 8a 80 ; or A, D, D
+  b84:0 |  b84 | 00 00 00 b8 98 02 00 00 ; call PrintInt
+  b8c:0 |  b8c | 00 00 80 39 00 02 00 00 ; limd E, 512
+  b94:0 |  b94 | 00 00 c0 11 06 24 00 00 ; lh F, ZERO, sectors_per_cluster
+  b9c:0 |  b9c | 00 60 8e 51 ; mul E, F, E
+  ba0:0 |  ba0 | 00 50 0c a0 ; cmpu E, D
+  ba4:0 |  ba4 | 00 02 00 a8 ac 0b 00 00 ; bchi GREATER, _loadKernelAndRun_SingleClusterFile
+  bac:0 |  bac |             ; _loadKernelAndRun_SingleClusterFile:
+  bac:0 |  bac | 00 30 86 80 ; or A, B, B
+  bb0:0 |  bb0 | 00 00 00 b8 d0 0b 00 00 ; call loadCluster
+  bb8:0 |  bb8 | 00 00 80 38 00 28 00 00 ; limd A, FAT_CLUSTER
+  bc0:0 |  bc0 | 00 00 00 b8 6c 04 00 00 ; call dumpSector512
+  bc8:0 |  bc8 | 00 00 00 a8 c8 0b 00 00 ; halt
+  bd0:0 |  bd0 |             ; loadCluster:
+  bd0:0 |  bd0 | 00 d0 37 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push RA
+  be4:0 |  be4 | 00 20 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push A
+  bf8:0 |  bf8 | 00 30 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push B
+  c0c:0 |  c0c | 00 40 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push C
+  c20:0 |  c20 | 00 50 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push D
+  c34:0 |  c34 | 00 60 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push E
+  c48:0 |  c48 | 00 70 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push F
+  c5c:0 |  c5c | 00 80 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push G
+  c70:0 |  c70 | 00 90 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push H
+  c84:0 |  c84 | 00 00 c4 80 ; or B, A, ZERO
+  c88:0 |  c88 | 00 00 80 38 bc 11 00 00 ; limd A, LoadingCluster
+  c90:0 |  c90 | 00 00 00 b8 08 00 00 00 ; call PrintString
+  c98:0 |  c98 | 00 00 86 80 ; or A, B, ZERO
+  c9c:0 |  c9c | 00 00 00 b8 98 02 00 00 ; call PrintInt
+  ca4:0 |  ca4 | 00 00 c0 38 0a 00 00 00 ; limd B, 10
+  cac:0 |  cac | 00 30 00 30 00 00 00 c0 ; sb B, ZERO, SERIAL_DATA
+  cb4:0 |  cb4 | 00 00 00 b8 f8 10 00 00 ; call calc_cluster_lba_start
+  cbc:0 |  cbc | 00 00 84 81 ; or E, A, ZERO
+  cc0:0 |  cc0 | 00 00 00 11 06 24 00 00 ; lh C, ZERO, sectors_per_cluster
+  cc8:0 |  cc8 | 00 10 08 49 ; sub C, C, ONE
+  ccc:0 |  ccc | 00 40 88 80 ; or A, C, C
+  cd0:0 |  cd0 | 00 00 00 b8 98 02 00 00 ; call PrintInt
+  cd8:0 |  cd8 | 00 60 00 20 00 04 00 c0 ; sw E, ZERO, HDD_LBA
+  ce0:0 |  ce0 | 00 00 00 18 04 04 00 c0 ; lb ZERO, ZERO, HDD_WR
+  ce8:0 |  ce8 | 00 00 c0 38 00 28 00 00 ; limd B, FAT_CLUSTER
+  cf0:0 |  cf0 | 00 00 40 39 00 02 00 00 ; limd D, 512
+  cf8:0 |  cf8 | 00 00 00 3a 8b 11 00 00 ; limd G, CopyingSector
+  d00:0 |  d00 | 00 00 40 3a 9c 11 00 00 ; limd H, ForCluser
+  d08:0 |  d08 | 00 00 90 80 ; or A, G, ZERO
+  d0c:0 |  d0c | 00 00 00 b8 08 00 00 00 ; call PrintString
+  d14:0 |  d14 | 00 00 8c 80 ; or A, E, ZERO
+  d18:0 |  d18 | 00 00 00 b8 98 02 00 00 ; call PrintInt
+  d20:0 |  d20 | 00 00 92 80 ; or A, H, ZERO
+  d24:0 |  d24 | 00 00 00 b8 08 00 00 00 ; call PrintString
+  d2c:0 |  d2c | 00 00 80 38 08 04 00 c0 ; limd A, HDD_BLOCK_START
+  d34:0 |  d34 | 00 00 00 b8 30 05 00 00 ; call BlockCopy512
+  d3c:0 |  d3c |             ; _copyClusterloop:
+  d3c:0 |  d3c | 00 00 08 a0 ; cmpu C, ZERO
+  d40:0 |  d40 | 00 01 00 a8 a0 0d 00 00 ; bchi EQUAL, __copyClusterloopdone
+  d48:0 |  d48 | 00 60 82 41 ; add E, ONE, E
+  d4c:0 |  d4c | 00 30 ca 40 ; add B, D, B
+  d50:0 |  d50 | 00 60 00 20 00 04 00 c0 ; sw E, ZERO, HDD_LBA
+  d58:0 |  d58 | 00 00 00 18 04 04 00 c0 ; lb ZERO, ZERO, HDD_WR
+  d60:0 |  d60 | 00 00 c4 81 ; or F, A, ZERO
+  d64:0 |  d64 | 00 00 90 80 ; or A, G, ZERO
+  d68:0 |  d68 | 00 00 00 b8 08 00 00 00 ; call PrintString
+  d70:0 |  d70 | 00 00 8c 80 ; or A, E, ZERO
+  d74:0 |  d74 | 00 00 00 b8 98 02 00 00 ; call PrintInt
+  d7c:0 |  d7c | 00 00 92 80 ; or A, H, ZERO
+  d80:0 |  d80 | 00 00 00 b8 08 00 00 00 ; call PrintString
+  d88:0 |  d88 | 00 00 8e 80 ; or A, F, ZERO
+  d8c:0 |  d8c | 00 00 00 b8 30 05 00 00 ; call BlockCopy512
+  d94:0 |  d94 | 00 10 08 49 ; sub C, C, ONE
+  d98:0 |  d98 | 00 00 00 a8 3c 0d 00 00 ; jmp _copyClusterloop
+  da0:0 |  da0 |             ; __copyClusterloopdone:
+  da0:0 |  da0 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 76 0a 00 40 00 00 ; pop H
+  db4:0 |  db4 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 36 0a 00 40 00 00 ; pop G
+  dc8:0 |  dc8 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 f6 09 00 40 00 00 ; pop F
+  ddc:0 |  ddc | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 b6 09 00 40 00 00 ; pop E
+  df0:0 |  df0 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 76 09 00 40 00 00 ; pop D
+  e04:0 |  e04 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 36 09 00 40 00 00 ; pop C
+  e18:0 |  e18 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 f6 08 00 40 00 00 ; pop B
+  e2c:0 |  e2c | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 b6 08 00 40 00 00 ; pop A
+  e40:0 |  e40 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 76 0f 00 40 00 00 ; pop RA
+  e54:0 |  e54 | 00 00 00 c8 ; rtn
+  e58:0 |  e58 |             ; getDirectoryEntryFirstCluster:
+  e58:0 |  e58 | 00 00 84 08 14 00 00 00 ; lw A, A, 0x14
+  e60:0 |  e60 | 00 00 00 c8 ; rtn
+  e64:0 |  e64 |             ; checkFAT32DirectoryTableEntry:
+  e64:0 |  e64 | 00 d0 37 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push RA
+  e78:0 |  e78 | 00 30 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push B
+  e8c:0 |  e8c | 00 40 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push C
+  ea0:0 |  ea0 | 00 50 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push D
+  eb4:0 |  eb4 | 00 00 c4 18 00 00 00 00 ; lb B, A, 0
+  ebc:0 |  ebc | 00 00 06 a0 ; cmpu B, ZERO
+  ec0:0 |  ec0 | 00 01 00 a8 5c 0f 00 00 ; bchi EQUAL, _checkFAT32DirectoryTableEntry_EOD
+  ec8:0 |  ec8 | 00 00 00 39 e5 00 00 00 ; limd C, 0xE5
+  ed0:0 |  ed0 | 00 40 06 a0 ; cmpu B, C
+  ed4:0 |  ed4 | 00 01 00 a8 4c 0f 00 00 ; bchi EQUAL, _checkFAT32DirectoryTableEntry_Unused
+  edc:0 |  edc | 00 00 c4 18 0b 00 00 00 ; lb B, A, 0x0B
+  ee4:0 |  ee4 | 00 00 00 39 0f 00 00 00 ; limd C, 0x0f
+  eec:0 |  eec | 00 40 46 79 ; and D, B, C
+  ef0:0 |  ef0 | 00 40 0a a0 ; cmpu D, C
+  ef4:0 |  ef4 | 00 01 00 a8 4c 0f 00 00 ; bchi EQUAL, _checkFAT32DirectoryTableEntry_Unused
+  efc:0 |  efc | 00 00 00 39 08 00 00 00 ; limd C, 0x08
+  f04:0 |  f04 | 00 40 46 79 ; and D, B, C
+  f08:0 |  f08 | 00 40 0a a0 ; cmpu D, C
+  f0c:0 |  f0c | 00 01 00 a8 4c 0f 00 00 ; bchi EQUAL, _checkFAT32DirectoryTableEntry_Unused
+  f14:0 |  f14 | 00 00 00 39 10 00 00 00 ; limd C, 0x10
+  f1c:0 |  f1c | 00 40 46 79 ; and D, B, C
+  f20:0 |  f20 | 00 40 0a a0 ; cmpu D, C
+  f24:0 |  f24 | 00 01 00 a8 3c 0f 00 00 ; bchi EQUAL, _checkFAT32DirectoryTableEntry_DIR
+  f2c:0 |  f2c | 00 00 80 38 01 00 00 00 ; limd A, 1
+  f34:0 |  f34 | 00 00 00 a8 64 0f 00 00 ; jmp _checkFAT32DirectoryTableEntry_end
+  f3c:0 |  f3c |             ; _checkFAT32DirectoryTableEntry_DIR:
+  f3c:0 |  f3c | 00 00 80 38 02 00 00 00 ; limd A, 2
+  f44:0 |  f44 | 00 00 00 a8 64 0f 00 00 ; jmp _checkFAT32DirectoryTableEntry_end
+  f4c:0 |  f4c |             ; _checkFAT32DirectoryTableEntry_Unused:
+  f4c:0 |  f4c | 00 00 80 38 00 00 00 00 ; limd A, 0
+  f54:0 |  f54 | 00 00 00 a8 64 0f 00 00 ; jmp _checkFAT32DirectoryTableEntry_end
+  f5c:0 |  f5c |             ; _checkFAT32DirectoryTableEntry_EOD:
+  f5c:0 |  f5c | 00 00 80 38 03 00 00 00 ; limd A, 3
+  f64:0 |  f64 |             ; _checkFAT32DirectoryTableEntry_end:
+  f64:0 |  f64 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 76 09 00 40 00 00 ; pop D
+  f78:0 |  f78 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 36 09 00 40 00 00 ; pop C
+  f8c:0 |  f8c | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 f6 08 00 40 00 00 ; pop B
+  fa0:0 |  fa0 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 76 0f 00 40 00 00 ; pop RA
+  fb4:0 |  fb4 | 00 00 00 c8 ; rtn
+  fb8:0 |  fb8 |             ; checkParititon:
+  fb8:0 |  fb8 | 00 d0 37 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push RA
+  fcc:0 |  fcc | 00 30 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push B
+  fe0:0 |  fe0 | 00 40 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push C
+  ff4:0 |  ff4 | 00 00 00 39 80 00 00 00 ; limd C, 0x80
+  ffc:0 |  ffc | 00 00 c4 18 00 00 00 00 ; lb B, A, 0
+ 1004:0 | 1004 | 00 40 06 a0 ; cmpu B, C
+ 1008:0 | 1008 | 00 01 00 a8 18 10 00 00 ; bchi EQUAL, _okay
+ 1010:0 | 1010 | 00 10 82 78 ; and A, ONE, ONE
+ 1014:0 | 1014 | 00 00 00 c8 ; rtn
+ 1018:0 | 1018 |             ; _okay:
+ 1018:0 | 1018 | 00 00 c4 18 04 00 00 00 ; lb B, A, 4
+ 1020:0 | 1020 | 00 00 00 39 0b 00 00 00 ; limd C, 0x0B
+ 1028:0 | 1028 | 00 40 06 a0 ; cmpu B, C
+ 102c:0 | 102c | 00 01 00 a8 b4 10 00 00 ; bchi EQUAL, _okay2
+ 1034:0 | 1034 | 00 00 00 39 0c 00 00 00 ; limd C, 0x0C
+ 103c:0 | 103c | 00 40 06 a0 ; cmpu B, C
+ 1040:0 | 1040 | 00 01 00 a8 b4 10 00 00 ; bchi EQUAL, _okay2
+ 1048:0 | 1048 | 00 00 00 39 1b 00 00 00 ; limd C, 0x1B
+ 1050:0 | 1050 | 00 40 06 a0 ; cmpu B, C
+ 1054:0 | 1054 | 00 01 00 a8 b4 10 00 00 ; bchi EQUAL, _okay2
+ 105c:0 | 105c | 00 00 00 39 1c 00 00 00 ; limd C, 0x1C
+ 1064:0 | 1064 | 00 40 06 a0 ; cmpu B, C
+ 1068:0 | 1068 | 00 01 00 a8 b4 10 00 00 ; bchi EQUAL, _okay2
+ 1070:0 | 1070 | 00 10 82 78 ; and A, ONE, ONE
+ 1074:0 | 1074 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 36 09 00 40 00 00 ; pop C
+ 1088:0 | 1088 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 f6 08 00 40 00 00 ; pop B
+ 109c:0 | 109c | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 76 0f 00 40 00 00 ; pop RA
+ 10b0:0 | 10b0 | 00 00 00 c8 ; rtn
+ 10b4:0 | 10b4 |             ; _okay2:
+ 10b4:0 | 10b4 | 00 00 80 78 ; and A, ZERO, ZERO
+ 10b8:0 | 10b8 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 36 09 00 40 00 00 ; pop C
+ 10cc:0 | 10cc | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 f6 08 00 40 00 00 ; pop B
+ 10e0:0 | 10e0 | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 76 0f 00 40 00 00 ; pop RA
+ 10f4:0 | 10f4 | 00 00 00 c8 ; rtn
+ 10f8:0 | 10f8 |             ; calc_cluster_lba_start:
+ 10f8:0 | 10f8 | 00 30 36 20 00 40 00 00 00 00 00 3f 04 00 00 00 00 b0 f9 46 ; push B
+ 110c:0 | 110c | 00 10 84 48 ; sub A, A, ONE
+ 1110:0 | 1110 | 00 10 84 48 ; sub A, A, ONE
+ 1114:0 | 1114 | 00 00 c0 18 06 24 00 00 ; lb B, ZERO, sectors_per_cluster
+ 111c:0 | 111c | 00 30 84 50 ; mul A, A, B
+ 1120:0 | 1120 | 00 00 c0 08 18 24 00 00 ; lw B, ZERO, cluster_begin_lba
+ 1128:0 | 1128 | 00 20 86 40 ; add A, B, A
+ 112c:0 | 112c | 00 00 00 3f 04 00 00 00 00 c0 f7 4e 00 00 f6 08 00 40 00 00 ; pop B
+ 1140:0 | 1140 | 00 00 00 c8 ; rtn
+ 1144:0 | 1144 |             ; CheckingMBRIntegerty:
+ 1144:0 | 1144 | 43 68 65 63 6b 69 6e 67 20 4d 42 52 20 49 6e 74 65 67 65 72 74 79 2e 2e 2e 20 00 ; "Checking MBR Integerty... \0"
+ 115f:0 | 115f |             ; FAILEDResponse:
+ 115f:0 | 115f | 46 61 69 6c 65 64 21 0a 00 ; "Failed!\n\0"
+ 1168:0 | 1168 |             ; CheckFailedHalting:
+ 1168:0 | 1168 | 43 68 65 63 6b 20 46 61 69 6c 65 64 2e 20 48 61 6c 74 69 6e 67 21 20 0a 00 ; "Check Failed. Halting! \n\0"
+ 1181:0 | 1181 |             ; PASSEDResponse:
+ 1181:0 | 1181 | 50 41 53 53 45 44 21 20 0a 00 ; "PASSED! \n\0"
+ 118b:0 | 118b |             ; CopyingSector:
+ 118b:0 | 118b | 0a 43 6f 70 79 69 6e 67 20 53 65 63 74 6f 72 20 00 ; "\nCopying Sector \0"
+ 119c:0 | 119c |             ; ForCluser:
+ 119c:0 | 119c | 20 66 6f 72 20 61 20 63 6c 75 73 74 65 72 0a 00 ; " for a cluster\n\0"
+ 11ac:0 | 11ac |             ; LoadedCluster:
+ 11ac:0 | 11ac | 4c 6f 61 64 65 64 20 43 6c 75 73 74 65 72 0a 00 ; "Loaded Cluster\n\0"
+ 11bc:0 | 11bc |             ; LoadingCluster:
+ 11bc:0 | 11bc | 4c 6f 61 64 69 6e 67 20 43 6c 75 73 74 65 72 20 00 ; "Loading Cluster \0"
+ 11cd:0 | 11cd |             ; FoundParitionAt:
+ 11cd:0 | 11cd | 46 6f 75 6e 64 20 62 6f 6f 74 61 62 6c 65 20 46 41 54 33 32 20 70 61 72 74 69 74 69 6f 6e 20 40 20 00 ; "Found bootable FAT32 partition @ \0"
+ 11ef:0 | 11ef |             ; SearchBootPartition:
+ 11ef:0 | 11ef | 53 65 61 72 63 68 69 6e 67 20 66 6f 72 20 62 6f 6f 74 61 62 6c 65 20 70 61 72 74 69 74 69 6f 6e 2e 0a 00 ; "Searching for bootable partition.\n\0"
+ 1212:0 | 1212 |             ; NoBootPartitionFound:
+ 1212:0 | 1212 | 4e 6f 20 62 6f 6f 74 61 62 6c 65 20 70 61 72 69 74 69 6f 6e 20 66 6f 75 6e 64 21 20 48 61 6c 74 69 6e 67 2e 20 00 ; "No bootable parition found! Halting. \0"
+ 1238:0 | 1238 |             ; ReadingRootDirectory:
+ 1238:0 | 1238 | 0a 52 65 61 64 69 6e 67 20 72 6f 6f 74 20 64 69 72 65 63 74 6f 72 79 2e 2e 2e 0a 00 ; "\nReading root directory...\n\0"
+ 1254:0 | 1254 |             ; SearchingForKernel:
+ 1254:0 | 1254 | 53 65 61 72 63 68 69 6e 67 20 66 6f 72 20 42 4f 4f 54 2e 42 49 4e 2e 2e 2e 0a 00 ; "Searching for BOOT.BIN...\n\0"
+ 126f:0 | 126f |             ; KernelFoundMsg:
+ 126f:0 | 126f | 0a 4b 65 72 6e 65 6c 20 66 6f 75 6e 64 21 20 4c 6f 61 64 69 6e 67 2e 2e 2e 0a 00 ; "\nKernel found! Loading...\n\0"
+ 128a:0 | 128a |             ; NoKernelFound:
+ 128a:0 | 128a | 42 4f 4f 54 2e 42 49 4e 20 6e 6f 74 20 66 6f 75 6e 64 21 20 48 61 6c 74 69 6e 67 2e 0a 00 ; "BOOT.BIN not found! Halting.\n\0"
+ 12a8:0 | 12a8 |             ; FileName:
+ 12a8:0 | 12a8 | 42 4f 4f 54 20 20 20 20 42 49 4e ; "BOOT    BIN"
+ 12b3:0 | 12b3 |             ; FoundFile:
+ 12b3:0 | 12b3 | 46 6f 75 6e 64 20 61 20 66 69 6c 65 20 65 6e 74 72 79 21 20 49 74 73 20 6e 61 6d 65 20 69 73 3a 20 00 ; "Found a file entry! Its name is: \0"
+ 12d5:0 | 12d5 |             ; KernelLoadedMsg:
+ 12d5:0 | 12d5 | 4b 65 72 6e 65 6c 20 6c 6f 61 64 65 64 21 20 4a 75 6d 70 69 6e 67 20 74 6f 20 6b 65 72 6e 65 6c 2e 2e 2e 0a 00 ; "Kernel loaded! Jumping to kernel...\n\0"
+ 12fa:0 | 12fa |             ; LoadErrorMsg:
+ 12fa:0 | 12fa | 45 72 72 6f 72 20 6c 6f 61 64 69 6e 67 20 66 69 6c 65 21 20 48 61 6c 74 69 6e 67 2e 0a 00 ; "Error loading file! Halting.\n\0"
+ 1318:0 | 1318 |             ; BytesPerSector:
+ 1318:0 | 1318 | 42 79 74 65 73 20 70 65 72 20 73 65 63 74 6f 72 20 00 ; "Bytes per sector \0"
+ 132a:0 | 132a |             ; SectorsPerCluster:
+ 132a:0 | 132a | 0a 53 65 63 74 6f 72 73 20 70 65 72 20 43 6c 75 73 74 65 72 20 00 ; "\nSectors per Cluster \0"
+ 1340:0 | 1340 |             ; RootDirectoryFirstCluster:
+ 1340:0 | 1340 | 0a 52 6f 6f 74 20 44 69 72 65 63 74 6f 72 79 20 46 69 72 73 74 20 43 6c 75 73 74 65 72 20 00 ; "\nRoot Directory First Cluster \0"
+ 135f:0 | 135f |             ; SectorsPerFAT:
+ 135f:0 | 135f | 0a 53 65 63 74 6f 72 73 20 70 65 72 20 46 41 54 20 00 ; "\nSectors per FAT \0"
+ 1371:0 | 1371 |             ; FATBeginLBA:
+ 1371:0 | 1371 | 0a 46 41 54 20 42 65 67 69 6e 20 4c 42 41 20 00 ; "\nFAT Begin LBA \0"
+ 1381:0 | 1381 |             ; ClusterBeginLBA:
+ 1381:0 | 1381 | 0a 43 6c 75 73 74 65 72 20 42 65 67 69 6e 20 4c 42 41 20 00 ; "\nCluster Begin LBA \0"

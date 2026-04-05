@@ -192,3 +192,188 @@ class console:
                 return INTERRUPT_NUMS_STARTING
         return 0
         
+        
+        
+class network:
+    def __init__(self,config):
+        import socket
+        import struct
+        print("Network Serial Device",config)
+        self.start = config["start"]
+        self.port = config["port"]
+        self.host = config["host"]
+        self.input_queue = Queue(255)
+        self.output_queue = Queue(255)
+        #tty.setraw(sys.stdin)
+        self.intterupt = 0
+        self.int_wire = config["intterupt"]
+
+        def update_server(in_queue,output_queue):
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                s.bind((self.host, self.port))
+                s.setblocking(False)
+                s.listen()
+                while True:
+                    try:
+                        conn, addr = s.accept()
+                        with conn:
+                            while True:
+                                data = conn.recv(1)
+                                if len(data) > 0:
+                                    for x in data:
+                                        in_queue.put(x)
+                                if output_queue.qsize() > 0:
+                                    buf = b""
+                                    while not output_queue.empty():
+                                        buf += struct.pa
+                                        struct.pack(">B",output_queue.get())
+                                    conn.send(buf)
+                    except Exception as e:
+                        print(e)
+        
+        input_thread = threading.Thread(target=update_server, args=([self.input_queue,self.output_queue]))
+        input_thread.daemon = True
+        input_thread.start()
+
+
+        
+    def read(self,addr,size):
+        
+        if not self.isSelected(addr):
+            return 0
+        #print(addr,size)    
+        if size == 1:
+            return self.get(addr-self.start)
+        elif size == 2 and self.isSelected(addr+1):
+            return self.get(addr-self.start) + (self.get(addr+1-self.start) << 8)
+        elif size == 4 and self.isSelected(addr+1) and self.isSelected(addr+2) and self.isSelected(addr+3):
+            return self.get(addr-self.start) + (self.get(addr+1-self.start) << 8) + (self.get(addr+2-self.start) << 16) + (self.get(addr+3-self.start) << 24)
+       
+    def write(self,addr,size,value):
+        if not self.isSelected(addr):
+            return
+        a = value & 0xFF
+        b = (value & 0xFF00) >> 8
+        c = (value&0xFF0000) >> 16
+        d = (value & 0xFF000000) >> 24
+            
+        if size == 1:
+            self.set(addr-self.start,a)
+        elif size == 2 and self.isSelected(addr+1):
+            self.set(addr-self.start,a)
+            self.set(addr+1-self.start,b)
+        elif size == 4 and self.isSelected(addr+1) and self.isSelected(addr+2) and self.isSelected(addr+3):
+            self.set(addr-self.start,a)
+            self.set(addr+1-self.start,b)
+            self.set(addr+2-self.start,c)
+            self.set(addr+3-self.start,d)
+        
+    
+    def isSelected(self,addr):
+        if addr < self.start + 3 and addr >= self.start:
+            return True
+        return False
+        
+    def get(self,addr):
+        if addr == 0:
+            if self.input_queue.empty():
+                return 0
+            else:
+                return self.input_queue.get()
+        if addr == 1:
+            return self.input_queue.qsize()
+        if addr == 2:
+            return self.output_queue.qsize()
+        if addr == 3:
+            return self.intterupt
+            
+    def set(self,addr,value):
+        #print(addr,value)
+        if addr == 0:
+            output_queue.out(value & 0xFF)
+        if addr == 3:
+            self.intterupt = value
+            
+    def tick(self):
+        if self.intterupt & 1 == 1:
+            if not input_queue.empty():
+                return INTERRUPT_NUMS_STARTING
+        return 0
+        
+        
+        
+class console_outonly:
+    def __init__(self,config):
+        print("Console Serial Device Out Only",config)
+        self.start = config["start"]
+        self.input_queue = Queue(255)
+        #tty.setraw(sys.stdin)
+        self.intterupt = 0
+        self.int_wire = config["intterupt"]
+
+
+
+        
+    def read(self,addr,size):
+        
+        if not self.isSelected(addr):
+            return 0
+        #print(addr,size)    
+        if size == 1:
+            return self.get(addr-self.start)
+        elif size == 2 and self.isSelected(addr+1):
+            return self.get(addr-self.start) + (self.get(addr+1-self.start) << 8)
+        elif size == 4 and self.isSelected(addr+1) and self.isSelected(addr+2) and self.isSelected(addr+3):
+            return self.get(addr-self.start) + (self.get(addr+1-self.start) << 8) + (self.get(addr+2-self.start) << 16) + (self.get(addr+3-self.start) << 24)
+       
+    def write(self,addr,size,value):
+        if not self.isSelected(addr):
+            return
+        a = value & 0xFF
+        b = (value & 0xFF00) >> 8
+        c = (value&0xFF0000) >> 16
+        d = (value & 0xFF000000) >> 24
+            
+        if size == 1:
+            self.set(addr-self.start,a)
+        elif size == 2 and self.isSelected(addr+1):
+            self.set(addr-self.start,a)
+            self.set(addr+1-self.start,b)
+        elif size == 4 and self.isSelected(addr+1) and self.isSelected(addr+2) and self.isSelected(addr+3):
+            self.set(addr-self.start,a)
+            self.set(addr+1-self.start,b)
+            self.set(addr+2-self.start,c)
+            self.set(addr+3-self.start,d)
+        
+    
+    def isSelected(self,addr):
+        if addr < self.start + 3 and addr >= self.start:
+            return True
+        return False
+        
+    def get(self,addr):
+        if addr == 0:
+            if self.input_queue.empty():
+                return 0
+            else:
+                return self.input_queue.get()
+        if addr == 1:
+            return self.input_queue.qsize()
+        if addr == 2:
+            return 0
+        if addr == 3:
+            return self.intterupt
+            
+    def set(self,addr,value):
+        #print(addr,value)
+        if addr == 0:
+            sys.stdout.write(chr(value & 0xFF))
+            sys.stdout.flush()
+        if addr == 3:
+            self.intterupt = value
+            
+    def tick(self):
+        if self.intterupt & 1 == 1:
+            if not input_queue.empty():
+                return INTERRUPT_NUMS_STARTING
+        return 0

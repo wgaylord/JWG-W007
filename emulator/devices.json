@@ -4,7 +4,7 @@
     "device": "ROM",
     "config": {
       "start": 0,
-      "length": 4096,
+      "length": 8192,
       "binary": "main.bin"
     }
   },
@@ -12,16 +12,33 @@
     "deviceType": "memory",
     "device": "RAM",
     "config": {
-      "start": 4096,
-      "length": 61440
+      "start": 8192,
+      "length": 262144
     }
   },
    "serial": {
     "deviceType": "serial",
-    "device": "console",
+    "device": "console_outonly",
     "config": {
-      "start": 2147483648,
+      "start": 3221225472,
 	  "intterupt": 1
     }
+  },
+   "hdd": {
+    "deviceType": "disk",
+    "device": "HDD_RAW_IMG",
+    "config": {
+      "start": 3221226496,
+      "size": 2147483648,
+	  "binary": "hdd_mbr.bin",
+	  "readonly": true
+    }
+  },
+  "diag": {
+	  "deviceType": "diag",
+	  "device": "diag",
+	  "config": {
+		"watched": []
+	  }
   }
 }

@@ -3,6 +3,8 @@ import json
 
 devices = {}
 
+privilegeMode = 0
+
 def loadDevices():
     
     print("Loading devices.")

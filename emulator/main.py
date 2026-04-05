@@ -1,17 +1,19 @@
 import cpu
-import board
 import mmu
 import time
+import sys
 
 
 
-cpu = cpu.CPU(readFunc = board.read, writeFunc = board.write)
+cpu = cpu.CPU(readFunc = mmu.read, writeFunc = mmu.write)
 
 while True:
-    #print(hex(cpu.PC),cpu.registers)
+    if (cpu.PC >= 10240):
+        print(hex(cpu.PC))
     cpu.tick()
-    interrupt = board.tick()
+    interrupt = mmu.tick()
     if interrupt > 0:
         cpu.interrupt(interrupt)
-    time.sleep(0.01)
+    time.sleep(0.0001)
     
+print("Go")

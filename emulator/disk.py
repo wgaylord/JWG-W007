@@ -30,6 +30,7 @@ class HDD_RAW_IMG:
     def write(self,addr,size,value):
         if not self.isSelected(addr):
             return
+        #print(value)
         a = value & 0xFF
         b = (value & 0xFF00) >> 8
         c = (value&0xFF0000) >> 16
@@ -48,7 +49,7 @@ class HDD_RAW_IMG:
         
     
     def isSelected(self,addr):
-        if addr < self.start + self.length and addr >= self.start:
+        if addr < (self.start + self.length+8) and addr >= self.start:
             return True
         return False
         
@@ -73,6 +74,8 @@ class HDD_RAW_IMG:
             return 0
             
         if addr >= 8 and addr < 520:
+            #print(self.block)
+            #print(self.LBA,addr,addr-8)
             return self.block[addr-8]
             
     def set(self,addr,value):
@@ -84,6 +87,8 @@ class HDD_RAW_IMG:
             self.LBA = (self.LBA & 0xFF00FFFF) | ((value<<16) & 0xFF0000)
         if addr == 3:
             self.LBA = (self.LBA & 0x00FFFFFF) | ((value<<24) & 0xFF000000)
+            
+        #print(self.LBA)
         
         if addr == 4:
             self.memory[self.LBA*512: (self.LBA*512)+512] = self.block

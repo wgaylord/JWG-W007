@@ -44,11 +44,14 @@ class RAM:
         
     def get(self,addr):
         if addr in self.memory.keys():
+            #print("Read: ",hex(addr+self.start),self.memory[addr])
             return self.memory[addr]
         else:
+            #print("Read: ",hex(addr+self.start),0)
             return 0
             
     def set(self,addr,value):
+        #print("Write: ",hex(addr+self.start),value)
         self.memory[addr] = value  
         if value == 0:
             del self.memory[addr]
