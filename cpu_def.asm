@@ -83,7 +83,7 @@
 	cmpu {r1: register}, {r2: register} => le(0x14`5 @0x0`5 @ r1`5 @ r2`5 @ 0x0`12) ;compare unsigned result stored in STATUS register
 	
 	bchi {c: condition}, {addr: u32} =>  le(0x15`5 @ 0x0`5 @ 0x0`5 @ 0x0`5 @ c`8 @ 0x0`4 ) @ le(addr`32) ;branch based off STATUS register branchs to address
-	bchr {c: condition}, {r1: register} =>  le(0x16`5 @0x0`5 @ r1`5 @ 0x0`5 @ 0x0`5 @ c`8 @ 0x0`4 ) ;branch based off STATUS register to address in r1
+	bchr {c: condition}, {r1: register} =>  le(0x16`5 @0x0`5 @ r1`5 @ 0x0`5@ c`8 @ 0x0`4 ) ;branch based off STATUS register to address in r1
 	
 	call {addr: u32} => le(0x17`5 @0x0`5 @ 0x0`5 @ 0x0`5 @ 0x0`12)@ le(addr`32) ;Call subrutine at addr
 	callr {r1: register} => le(0x18`5 @0x0`5 @ r1`5 @ 0x0`17) ;Call subrutine at address in r1
