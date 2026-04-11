@@ -255,7 +255,7 @@ class CPU:
                 return            
                 
             case 13: # shl
-                temp = self.registers[r1] << 1
+                temp = self.registers[r1] << self.registers[r2]
                 
                 if temp > 0xFF:
                     self.registers[STATUS] = self.registers[STATUS] | STATUS_BITS.OverFlow8
@@ -284,7 +284,7 @@ class CPU:
                 return
                 
             case 14: #shr
-                temp = self.registers[r1] >> 1
+                temp = self.registers[r1] >> self.registers[r2]
                 
                 if temp > 0xFF:
                     self.registers[STATUS] = self.registers[STATUS] | STATUS_BITS.OverFlow8
@@ -443,7 +443,7 @@ class CPU:
                 if r1s > r2s:
                     self.registers[STATUS] = self.registers[STATUS] | STATUS_BITS.EQUAL
                 else:
-                    self.registers[STATUS] = (STATUS_BITS.EQUAL ^ 0xFFFFFFFF) & self.registers[STATUS]
+                    self.registers[STATUS] = (STATUS_BITS.GREATER ^ 0xFFFFFFFF) & self.registers[STATUS]
                
                 
                 self.PC = self.PC + 4
@@ -469,19 +469,117 @@ class CPU:
                 
             case 21: #bchi
                 
-                #print("Branch Instruction",cond,self.registers[STATUS] & cond == cond,immd)
-                if self.registers[STATUS] & cond == cond or cond == 0:
+                if cond == 0:
                     self.PC = immd
                     return
                 
+                #CARRY8
+                if cond == 1 and  (self.registers[STATUS] & STATUS_BITS.CARRY8) > 0:
+                    self.PC = immd
+                    return
+                
+                
+                #CARRY16
+                if cond == 2 and  (self.registers[STATUS] & STATUS_BITS.CARRY16) > 0:
+                    self.PC = immd
+                    return
+                
+                
+                #CARRY32
+                if cond == 4 and  (self.registers[STATUS] & STATUS_BITS.CARRY32) > 0:
+                    self.PC = immd
+                    return
+                
+                #ZERO
+                if cond == 8 and  (self.registers[STATUS] & STATUS_BITS.ZERO) > 0:
+                    self.PC = immd
+                    return
+                
+                 #NOT ZERO
+                if cond == 16 and  (self.registers[STATUS] & STATUS_BITS.ZERO) == 0:
+                    self.PC = immd
+                    return
+                
+                 #EQUAL
+                if cond == 32 and  (self.registers[STATUS] & STATUS_BITS.EQUAL) > 0:
+                    self.PC = immd
+                    return
+                
+                #NOT EQUAL
+                if cond == 64 and  (self.registers[STATUS] & STATUS_BITS.EQUAL) == 0:
+                    self.PC = immd
+                    return
+                
+                #GREATER
+                if cond == 128 and  (self.registers[STATUS] & STATUS_BITS.GREATER) > 0:
+                    self.PC = immd
+                    return
+                
+                #Machine Mode
+                if cond == 255 and  (self.registers[STATUS] & STATUS_BITS.MACHINE_MODE) > 0:
+                    self.PC = immd
+                    return
+                
+                
+                                
                 self.PC = self.PC + 8
                 return
                 
             case 22: #bchr
-                if self.registers[STATUS] & cond == cond or cond == 0:
-                    self.PC = self.registers[r1] 
+                  
+                if cond == 0:
+                    self.PC = self.registers[r1]
                     return
                 
+                #CARRY8
+                if cond == 1 and  (self.registers[STATUS] & STATUS_BITS.CARRY8) > 0:
+                    self.PC = self.registers[r1]
+                    return
+                
+                
+                #CARRY16
+                if cond == 2 and  (self.registers[STATUS] & STATUS_BITS.CARRY16) > 0:
+                    self.PC = self.registers[r1]
+                    return
+                
+                
+                #CARRY32
+                if cond == 4 and  (self.registers[STATUS] & STATUS_BITS.CARRY32) > 0:
+                    self.PC = self.registers[r1]
+                    return
+                
+                #ZERO
+                if cond == 8 and  (self.registers[STATUS] & STATUS_BITS.ZERO) > 0:
+                    self.PC = self.registers[r1]
+                    return
+                
+                 #NOT ZERO
+                if cond == 16 and  (self.registers[STATUS] & STATUS_BITS.ZERO) == 0:
+                    self.PC = self.registers[r1]
+                    return
+                
+                 #EQUAL
+                if cond == 32 and  (self.registers[STATUS] & STATUS_BITS.EQUAL) > 0:
+                    self.PC = self.registers[r1]
+                    return
+                
+                #NOT EQUAL
+                if cond == 64 and  (self.registers[STATUS] & STATUS_BITS.EQUAL) == 0:
+                    self.PC = self.registers[r1]
+                    return
+                
+                #GREATER
+                if cond == 128 and  (self.registers[STATUS] & STATUS_BITS.GREATER) > 0:
+                    self.PC = self.registers[r1]
+                    return
+                
+                #Machine Mode
+                if cond == 255 and  (self.registers[STATUS] & STATUS_BITS.MACHINE_MODE) > 0:
+                    self.PC = self.registers[r1]
+                    return
+                
+                
+                                
                 self.PC = self.PC + 4
                 return
                 
@@ -541,6 +639,8 @@ class CPU:
                     self.PC = self.readWord(-(((self.registers[r1]&0xFF)*4)+PRIVLAGED_CSR_OFFSET))
                 return
                 
-            case 21: #sysrtn
+            case 31: #sysrtn
                 self.PC = self.registers[INT_RA]
                 return
+                
+                

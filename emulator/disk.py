@@ -49,7 +49,7 @@ class HDD_RAW_IMG:
         
     
     def isSelected(self,addr):
-        if addr < (self.start + self.length+8) and addr >= self.start:
+        if addr < (self.start + 520) and addr >= self.start:
             return True
         return False
         
@@ -92,6 +92,126 @@ class HDD_RAW_IMG:
         
         if addr == 4:
             self.memory[self.LBA*512: (self.LBA*512)+512] = self.block
+        if addr == 5:
+            self.status = value & 0xFF
+        if addr == 6:
+            self.command = value & 0xFF
+        if addr == 7:
+            return 0
+            
+        if addr >= 8 and addr < 520:
+            self.block[addr-8] = value & 0xFF
+
+
+
+class HDD_PICKLED_IMG:
+    
+    
+    zeroBlock = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+
+
+    def __init__(self,config):
+        import pickle
+        print("HDD PICKLED IMG Device",config)
+        self.start = config["start"]
+        self.binary_name = config["binary"]
+        self.data = pickle.load(open(self.binary_name,"rb"))
+        self.LBAS = data["LBAS"]
+        self.size = data["Total"]
+        self.LBA = 0
+        self.block = zeroBlock.copy()
+        self.status = 0
+        self.command = 0
+
+        
+    def read(self,addr,size):
+        if not self.isSelected(addr):
+            return 0
+            
+        if size == 1:
+            return self.get(addr-self.start)
+        elif size == 2 and self.isSelected(addr+1):
+            return self.get(addr-self.start) + (self.get(addr+1-self.start) << 8)
+        elif size == 4 and self.isSelected(addr+1) and self.isSelected(addr+2) and self.isSelected(addr+3):
+            return self.get(addr-self.start) + (self.get(addr+1-self.start) << 8) + (self.get(addr+2-self.start) << 16) + (self.get(addr+3-self.start) << 24)
+       
+    def write(self,addr,size,value):
+        if not self.isSelected(addr):
+            return
+        #print(value)
+        a = value & 0xFF
+        b = (value & 0xFF00) >> 8
+        c = (value&0xFF0000) >> 16
+        d = (value & 0xFF000000) >> 24
+            
+        if size == 1:
+            self.set(addr-self.start,a)
+        elif size == 2 and self.isSelected(addr+1):
+            self.set(addr-self.start,a)
+            self.set(addr+1-self.start,b)
+        elif size == 4 and self.isSelected(addr+1) and self.isSelected(addr+2) and self.isSelected(addr+3):
+            self.set(addr-self.start,a)
+            self.set(addr+1-self.start,b)
+            self.set(addr+2-self.start,c)
+            self.set(addr+3-self.start,d)
+        
+    
+    def isSelected(self,addr):
+        if addr < (self.start + 520) and addr >= self.start:
+            return True
+        return False
+        
+    def get(self,addr):
+        if addr == 0:
+            return self.LBA & 0xFF
+        if addr == 1:
+            return (self.LBA & 0xFF00) >> 8
+        if addr == 2:
+            return (self.LBA & 0xFF0000) >> 16
+        if addr == 3:
+            return (self.LBA & 0xFF000000) >> 24
+        
+        if addr == 4:
+            if self.LBA in self.LBAS.keys:
+                self.block = self.LBAS[self.LBA]
+            else:
+                self.block = zeroBlock
+
+            return 0
+        if addr == 5:
+            return self.status
+        if addr == 6:
+            return self.command
+        if addr == 7:
+            return 0
+            
+        if addr >= 8 and addr < 520:
+            #print(self.block)
+            #print(self.LBA,addr,addr-8)
+            return self.block[addr-8]
+            
+    def set(self,addr,value):
+        if addr == 0:
+            self.LBA = (self.LBA & 0xFFFFFF00) | (value & 0xFF)
+        if addr == 1:
+            self.LBA = (self.LBA & 0xFFFF00FF) | ((value<<8) & 0xFF00)
+        if addr == 2:
+            self.LBA = (self.LBA & 0xFF00FFFF) | ((value<<16) & 0xFF0000)
+        if addr == 3:
+            self.LBA = (self.LBA & 0x00FFFFFF) | ((value<<24) & 0xFF000000)
+            
+        #print(self.LBA)
+        
+        if addr == 4:
+            if self.block == self.LBAS[self.LBA]:
+                return
+            if self.block == zeroBlock:
+                if self.LBA in self.LBAS.keys():
+                    del self.LBAS[self.LBA]
+            else:
+                self.LBAS[self.LBAS] = self.block
+            
+            pickle.dump({"LBAS":self.LBAS,"Total":(self.size)},open(self.binary_name,"wb+"))
         if addr == 5:
             self.status = value & 0xFF
         if addr == 6:

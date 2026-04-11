@@ -6,9 +6,3 @@
 
 main:
 
-call InitInputData
-
-
-MainLoop:
-	call InputRoutine
-	jmp MainLoop

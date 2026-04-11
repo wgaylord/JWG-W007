@@ -1,8 +1,8 @@
 #once
 #subruledef register
 {
-   ZERO => 0
-   ONE  => 1
+   ZERO => 0 ;READ ONLY - Writes are ignored
+   ONE  => 1 ;READ ONLY - Writes are ignored
    
    A => 2
    B => 3
@@ -44,8 +44,10 @@
 	CARRY16 => 2
 	CARRY32 => 4
 	ZERO => 8
-	GREATER => 16
+	NOT_ZERO => 16
 	EQUAL => 32
+	NOT_EQUAL => 64
+	GREATER => 128
 	
 }
 
@@ -65,36 +67,38 @@
 	sh {r2: register}, {r1: register}, {addr: u32} => le(0x5`5 @ 0x0`5 @r1`5 @ r2`5 @ 0x0`12) @  le(addr`32) ;Store Half Word (16-bit), r1 is register containing an offset added to the addr, r2 is register being stored
 	sb {r2: register}, {r1: register}, {addr: u32} => le(0x6`5 @ 0x0`5 @ r1`5 @ r2`5 @ 0x0`12) @  le(addr`32) ;Store Byte (8-bit), r1 is register containing an offset added to the addr, r2 is register being stored
 	
-	sexth {rd: register}, {r1: register} => le(0x7`5 @ rd`5 @ r1`5 @ 0x0`17) ; Sign-extend Half Word to Word
-	sextb {rd: register}, {r1: register} => le(0x8`5 @ rd`5 @ r1`5 @ 0x0`17) ;Sign-extend Byte to Word
-	
-	limd  {rd: register}, {value: u32} => le(0x9`5 @ rd`5 @ 0x0`5 @ 0x0`17) @ le(value`32) ;Load Immd 
+	limd  {rd: register}, {value: u32} => le(0x7`5 @ rd`5 @ 0x0`5 @ 0x0`17) @ le(value`32) ;Load Immd 
 
-	add  {rd: register}, {r1: register}, {r2: register} => le(0xA`5 @ rd`5 @ r1`5 @ r2`5 @ 0x0`12) ;ADD
-	sub {rd: register}, {r1: register}, {r2: register} => le(0xB`5 @ rd`5 @ r1`5 @ r2`5 @ 0x0`12) ;SUB
-	mul {rd: register}, {r1: register}, {r2: register} => le(0xC`5 @ rd`5 @ r1`5 @ r2`5 @ 0x0`12) ;MULTIPLY
-	div {rd: register}, {r1: register}, {r2: register} => le(0xD`5 @ rd`5 @ r1`5 @ r2`5 @ 0x0`12) ;DIVIDE
-	shl {rd: register}, {r1: register} => le(0xE`5 @ rd`5 @ r1`5 @ 0x0`5 @ 0x0`12) ;SHIFT LEFT 1
-	shr {rd: register}, {r1: register} => le(0xF`5 @ rd`5  @ r1`5 @ 0x0`5 @ 0x0`12) ;SHIFT RIGHT 1
-	and {rd: register}, {r1: register}, {r2: register} => le(0x10`5 @ rd`5 @ r1`5 @ r2`5 @ 0x0`12) ;AND
-	or {rd: register}, {r1: register}, {r2: register} => le(0x11`5 @ rd`5 @ r1`5 @ r2`5 @ 0x0`12) ;OR
-	xor {rd: register}, {r1: register}, {r2: register} => le(0x12`5 @ rd`5 @ r1`5 @ r2`5 @ 0x0`12) ;XOR
-	not {rd: register}, {r1: register} => le(0x13`5 @ rd`5 @ r1`5 @ 0x0`5 @ 0x0`12) ;NOT
+	add  {rd: register}, {r1: register}, {r2: register} => le(0x8`5 @ rd`5 @ r1`5 @ r2`5 @ 0x0`12) ;ADD
+	sub {rd: register}, {r1: register}, {r2: register} => le(0x9`5 @ rd`5 @ r1`5 @ r2`5 @ 0x0`12) ;SUB
+	mul {rd: register}, {r1: register}, {r2: register} => le(0xA`5 @ rd`5 @ r1`5 @ r2`5 @ 0x0`12) ;MULTIPLY
+	div {rd: register}, {r1: register}, {r2: register} => le(0xB`5 @ rd`5 @ r1`5 @ r2`5 @ 0x0`12) ;DIVIDE
+	mod {rd: register}, {r1: register}, {r2: register} => le(0xC`5 @ rd`5 @ r1`5 @ r2`5 @ 0x0`12) ;Modulus
+	shl {rd: register}, {r1: register}, {r2: register} => le(0xD`5 @ rd`5 @ r1`5 @ r2`5 @ 0x0`12) ;SHIFT LEFT 1
+	shr {rd: register}, {r1: register}, {r2: register} => le(0xE`5 @ rd`5  @ r1`5 @ r2`5 @ 0x0`12) ;SHIFT RIGHT 1
+	and {rd: register}, {r1: register}, {r2: register} => le(0xF`5 @ rd`5 @ r1`5 @ r2`5 @ 0x0`12) ;AND
+	or {rd: register}, {r1: register}, {r2: register} => le(0x10`5 @ rd`5 @ r1`5 @ r2`5 @ 0x0`12) ;OR
+	xor {rd: register}, {r1: register}, {r2: register} => le(0x11`5 @ rd`5 @ r1`5 @ r2`5 @ 0x0`12) ;XOR
+	not {rd: register}, {r1: register} => le(0x12`5 @ rd`5 @ r1`5 @ 0x0`5 @ 0x0`12) ;NOT
 	
-	cmps {r1: register}, {r2: register} => le(0x14`5 @0x0`5 @ r1`5 @ r2`5 @ 0x0`12) ;compare signed result stored in STATUS register
-	cmpu {r1: register}, {r2: register} => le(0x15`5 @0x0`5 @ r1`5 @ r2`5 @ 0x0`12) ;compare unsigned result stored in STATUS register
+	cmps {r1: register}, {r2: register} => le(0x13`5 @0x0`5 @ r1`5 @ r2`5 @ 0x0`12) ;compare signed result stored in STATUS register
+	cmpu {r1: register}, {r2: register} => le(0x14`5 @0x0`5 @ r1`5 @ r2`5 @ 0x0`12) ;compare unsigned result stored in STATUS register
 	
-	bchi {c: condition}, {addr: u32} =>  le(0x16`5 @ 0x0`5 @ 0x0`5 @ 0x0`5 @ c`8 @ 0x0`4 ) @ le(addr`32) ;branch based off STATUS register branchs to address
-	bchr {c: condition}, {r1: register} =>  le(0x17`5 @0x0`5 @ r1`5 @ 0x0`5 @ 0x0`5 @ c`8 @ 0x0`4 ) ;branch based off STATUS register to address in r1
+	bchi {c: condition}, {addr: u32} =>  le(0x15`5 @ 0x0`5 @ 0x0`5 @ 0x0`5 @ c`8 @ 0x0`4 ) @ le(addr`32) ;branch based off STATUS register branchs to address
+	bchr {c: condition}, {r1: register} =>  le(0x16`5 @0x0`5 @ r1`5 @ 0x0`5 @ c`8 @ 0x0`4 ) ;branch based off STATUS register to address in r1
 	
-	call {addr: u32} => le(0x18`5 @0x0`5 @ 0x0`5 @ 0x0`5 @ 0x0`12)@ le(addr`32) ;Call subrutine at addr
-	callr {r1: register} => le(0x19`5 @0x0`5 @ r1`5 @ 0x0`17) ;Call subrutine at address in r1
-	rtn => le(0x1A`5 @0x0`5 @ 0x0`5 @ 0x0`17) ;return from subrutine to address in RA
+	call {addr: u32} => le(0x17`5 @0x0`5 @ 0x0`5 @ 0x0`5 @ 0x0`12)@ le(addr`32) ;Call subrutine at addr
+	callr {r1: register} => le(0x18`5 @0x0`5 @ 0x0`5 @ 0x0`5 @ 0x0`12) ;Call subrutine at address in r1
+	rtn => le(0x19`5 @0x0`5 @ 0x0`5 @ 0x0`17) ;return from subrutine to address in RA
+
+	aswap {rd: register}, {r1: register}, {addr: u32} => le(0x1A`5 @ rd`5 @ r1`5 @ 0x0`17) @ le(addr`32) ;atomic swap - Reads addr into rd and stores r1 into addr 
 	
 	wctl {r2: register}, {r1: register} => le(0x1B`5 @ 0`5 @ r1`5 @ r2`5 @ 0x0`12) ;write control register  r1 is register addr, r2 is word to write
 	rctl {rd: register}, {r1: register}  => le(0x1C`5 @ rd`5 @ r1`5 @ 0x0`17) ;read control register r1 is register addr, r2 is word to read
 
-	aswap {rd: register}, {r1: register}, {addr: u32} => le(0x1D`5 @ rd`5 @ r1`5 @ 0x0`17) @ le(addr`32) ;atomic swap - Reads addr into rd and stores r1 into addr 
+	cli => le(0x1D`5 @ 0`5 @ 0`5 @ 0`5 @ 0x0`12) ;Enableds Interrupts 
+	
+	sei => le(0x1D`5 @ 0`5 @ 0`5 @ 0`5 @ 0x1`12) ;Disabled Interrupts
 
 	syscall {r1: register} => le(0x1E`5 @ 0x0`5 @ r1`5 @ 0x0`17) ; software interrupt
 	sysrtn => le(0x1F @ 0x00 @ 0x00 @ 0x00) ;return interrup
@@ -112,5 +116,3 @@
 
 }
 
-
-jmp main
