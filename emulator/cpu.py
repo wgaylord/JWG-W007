@@ -441,7 +441,7 @@ class CPU:
                     self.registers[STATUS] = (STATUS_BITS.EQUAL ^ 0xFFFFFFFF) & self.registers[STATUS]
                     
                 if r1s > r2s:
-                    self.registers[STATUS] = self.registers[STATUS] | STATUS_BITS.EQUAL
+                    self.registers[STATUS] = self.registers[STATUS] | STATUS_BITS.GREATER
                 else:
                     self.registers[STATUS] = (STATUS_BITS.GREATER ^ 0xFFFFFFFF) & self.registers[STATUS]
                
