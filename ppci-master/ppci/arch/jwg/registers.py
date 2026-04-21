@@ -1,0 +1,36 @@
+from ppci.arch.encoding import Register
+
+class JWGRegister(Register):
+    bitsize = 32
+
+A = JWGRegister('A', num=2)
+B = JWGRegister('B', num=3)
+C = JWGRegister('C', num=4)
+D = JWGRegister('D', num=5)
+E = JWGRegister('E', num=6)
+F = JWGRegister('F', num=7)
+G = JWGRegister('G', num=8)
+H = JWGRegister('H', num=9)
+I = JWGRegister('I', num=10)
+J = JWGRegister('J', num=11)
+K = JWGRegister('K', num=12)
+L = JWGRegister('L', num=13)
+M = JWGRegister('M', num=14)
+N = JWGRegister('N', num=15)
+O = JWGRegister('O', num=16)
+P = JWGRegister('P', num=17)
+Q = JWGRegister('Q', num=18)
+R = JWGRegister('R', num=19)
+S = JWGRegister('S', num=20)
+T = JWGRegister('T', num=21)
+U = JWGRegister('U', num=22)
+V = JWGRegister('V', num=23)
+W = JWGRegister('W', num=24)
+X = JWGRegister('X', num=25)
+Y = JWGRegister('Y', num=26)
+Z = JWGRegister('Z', num=27)
+SCRATCH1 = JWGRegister('SCRATCH1', num=28) 
+
+RA = JWGRegister('RA', num=29) 
+STATUS = JWGRegister('STATUS', num=30) 
+INT_RA = JWGRegister('INT_RA', num=31) 
